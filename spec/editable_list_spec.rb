@@ -8,7 +8,6 @@ describe "Editable List" do
     @driver = $driver = Selenium::WebDriver.for(browser_type, browser_options)
     driver.manage().window().resize_to(1280, 720)
     driver.get(site_url)
-    sleep 1
   end
 
   after(:all) do
@@ -22,8 +21,13 @@ describe "Editable List" do
     editable_list_page = EditableListPage.new(driver)
     editable_list_page.enter_new_item("Mario, here I come!")
     editable_list_page.click_add_button
-    
-    puts @shadow_root
-    expect(@shadow_root.text).to include("Mario, here I come!")
+
+    last_item_text = editable_list_page.list_items.collect { |x| x.text.gsub("\u2296\n", "") }.last
+    expect(last_item_text).to eq("Mario, here I come!")
+    sleep 2 # add delay for viewing
+    editable_list_page.click_remove_button()
+    sleep 0.5
+    last_item_text = editable_list_page.list_items.collect { |x| x.text.gsub("\u2296\n", "") }.last
+    expect(last_item_text).not_to eq("Mario, here I come!")
   end
 end

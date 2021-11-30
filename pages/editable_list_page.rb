@@ -1,8 +1,6 @@
-
 require File.join(File.dirname(__FILE__), "abstract_page.rb")
 
 class EditableListPage < AbstractPage
-
   def initialize(driver)
     super(driver, "") # <= TEXT UNIQUE TO THIS PAGE
     retrieve_shadow_root
@@ -13,13 +11,29 @@ class EditableListPage < AbstractPage
     input_elem.send_keys(new_item)
   end
 
-
   def click_add_button
     button_elems = shadow_root.find_elements(:tag_name, "button")
-    puts button_elems.count
+    # puts button_elems.count
     add_button = button_elems.last
     add_button.click
   end
+
+  def list_items
+    # xpath in shadow seems not working well
+    # shadow_root.find_elements(:class, "item-list") # => return 1
+    shadow_root.find_elements(:css, "ul.item-list>li")
+  end
+
+  # index start from 1
+  def click_remove_button(list_number = -1)
+    button_elems = shadow_root.find_elements(:tag_name, "button")
+    # puts button_elems.count
+    if list_number == -1
+      puts "HELLO"
+      remove_button = button_elems[button_elems.count - 2]
+    else
+      remove_button = button_elems[list_number + 1]
+    end
+    remove_button.click
+  end
 end
-
-
