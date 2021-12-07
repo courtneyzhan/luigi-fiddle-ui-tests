@@ -6,7 +6,7 @@ class ExampleLuigiClientPage < AbstractPage
   def initialize(driver)
     super(driver, "") # <= TEXT UNIQUE TO THIS PAGE
     sleep 0.75 
-      retrieve_shadow_root  
+    retrieve_shadow_root  
   end
 
   def click_open_modal

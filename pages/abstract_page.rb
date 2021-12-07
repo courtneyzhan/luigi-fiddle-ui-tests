@@ -39,15 +39,17 @@ class AbstractPage
 
   # return shadow root of luigi page (such as luigi-wc-2f77632f6c6973742e6a73)
   def retrieve_shadow_root
-    elem = driver.find_elements(:xpath, "//div[@class='wcContainer svelte-1scomxs']").first
+    elem = driver.find_elements(:xpath, "//div[contains(@class, 'wcContainer svelte-')]").first
+    puts "ELEM: #{elem}"
+    
     elem_html = driver.execute_script("return arguments[0].outerHTML;", elem)
-    #puts elem_html
+    puts elem_html
 
     if elem_html =~ /<luigi-wc-([\d\w]+)>/
       shadow_element_wrapper_tag_name = "luigi-wc-" + $1
 
       # https://stackoverflow.com/questions/55761810/how-to-automate-shadow-dom-elements-using-selenium
-      elem = driver.find_element(:xpath, "//div[@class='wcContainer svelte-1scomxs']/#{shadow_element_wrapper_tag_name}")
+      elem = driver.find_element(:xpath, "//div[contains(@class, 'wcContainer svelte-')]/#{shadow_element_wrapper_tag_name}")
       @shadow_root = driver.execute_script("return arguments[0].shadowRoot", elem)
     end
   end
