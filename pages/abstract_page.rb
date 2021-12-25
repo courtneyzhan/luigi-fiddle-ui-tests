@@ -40,10 +40,10 @@ class AbstractPage
   # return shadow root of luigi page (such as luigi-wc-2f77632f6c6973742e6a73)
   def retrieve_shadow_root
     elem = driver.find_elements(:xpath, "//div[contains(@class, 'wcContainer svelte-')]").first
-    # puts "ELEM: #{elem}"
+    puts "ELEM: #{elem}"
     
     elem_html = driver.execute_script("return arguments[0].outerHTML;", elem)
-    # puts elem_html
+    puts elem_html
 
     if elem_html =~ /<luigi-wc-([\d\w]+)>/
       shadow_element_wrapper_tag_name = "luigi-wc-" + $1

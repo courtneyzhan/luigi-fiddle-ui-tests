@@ -24,20 +24,16 @@ class EditableListPage < AbstractPage
     shadow_root.find_elements(:css, "ul.item-list>li")
   end
 
-  def list_item_texts
-    list_items.collect { |x| x.text.gsub("\u2296\n", "") }
-  end
-
   # index start from 1
   def click_remove_button(list_number = -1)
     button_elems = shadow_root.find_elements(:tag_name, "button")
     # puts button_elems.count
     if list_number == -1
+      puts "HELLO"
       remove_button = button_elems[button_elems.count - 2]
     else
       remove_button = button_elems[list_number + 1]
     end
     remove_button.click
-    sleep 0.5
   end
 end
